@@ -25,9 +25,10 @@ interface Member {
 
 interface MembersListProps {
   limit?: number;
+  onViewAll?: () => void;
 }
 
-export const MembersList = ({ limit }: MembersListProps) => {
+export const MembersList = ({ limit, onViewAll }: MembersListProps) => {
   const [members] = useState<Member[]>([
     {
       id: "1",
@@ -117,7 +118,7 @@ export const MembersList = ({ limit }: MembersListProps) => {
           {limit ? "Recent Members" : "All Members"}
         </h3>
         {limit && (
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={onViewAll}>
             View All
           </Button>
         )}

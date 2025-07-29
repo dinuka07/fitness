@@ -22,9 +22,10 @@ interface AccessLog {
 
 interface AccessLogsProps {
   limit?: number;
+  onViewAll?: () => void;
 }
 
-export const AccessLogs = ({ limit }: AccessLogsProps) => {
+export const AccessLogs = ({ limit, onViewAll }: AccessLogsProps) => {
   const [logs] = useState<AccessLog[]>([
     {
       id: "1",
@@ -108,7 +109,7 @@ export const AccessLogs = ({ limit }: AccessLogsProps) => {
           {limit ? "Recent Access Logs" : "Access Logs"}
         </h3>
         {limit && (
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={onViewAll}>
             View All
           </Button>
         )}

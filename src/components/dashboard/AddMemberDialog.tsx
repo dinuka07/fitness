@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import smsService from "@/services/smsService";
 import { 
   User, 
   Phone, 
@@ -199,10 +200,35 @@ export const AddMemberDialog = ({ open, onOpenChange }: AddMemberDialogProps) =>
                 <Button 
                   variant="outline" 
                   className="flex-1"
-                  onClick={() => toast({
-                    title: "SMS Feature",
-                    description: "SMS integration will be available soon!"
-                  })}
+                  onClick={async () => {
+                    try {
+                      const response = await smsService.sendWelcomeSMS({
+                        name: formData.fullName,
+                        phone: formData.phone,
+                        accessCode: generatedCode,
+                        expiryDate: expiryDate
+                      });
+
+                      if (response.success) {
+                        toast({
+                          title: "SMS Sent!",
+                          description: `Welcome SMS sent to ${formData.phone}`,
+                        });
+                      } else {
+                        toast({
+                          title: "SMS Failed",
+                          description: response.error || "Failed to send SMS",
+                          variant: "destructive"
+                        });
+                      }
+                    } catch (error) {
+                      toast({
+                        title: "SMS Error",
+                        description: "An error occurred while sending SMS",
+                        variant: "destructive"
+                      });
+                    }
+                  }}
                 >
                   <MessageSquare className="h-4 w-4 mr-2" />
                   Send SMS
