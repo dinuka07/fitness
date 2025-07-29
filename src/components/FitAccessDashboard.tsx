@@ -18,6 +18,9 @@ import { StatsCards } from "./dashboard/StatsCards";
 import { MembersList } from "./dashboard/MembersList";
 import { AccessLogs } from "./dashboard/AccessLogs";
 import { AddMemberDialog } from "./dashboard/AddMemberDialog";
+import { AnalyticsCharts } from "./dashboard/AnalyticsCharts";
+import { AllMembersView } from "./dashboard/AllMembersView";
+import { AllAccessLogsView } from "./dashboard/AllAccessLogsView";
 
 export const FitAccessDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -117,24 +120,15 @@ export const FitAccessDashboard = () => {
           <div className="space-y-6">
             <StatsCards />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <MembersList limit={5} />
-              <AccessLogs limit={5} />
+              <MembersList limit={5} onViewAll={() => setActiveTab("members")} />
+              <AccessLogs limit={5} onViewAll={() => setActiveTab("access")} />
             </div>
           </div>
         )}
 
-        {activeTab === "members" && <MembersList />}
-        {activeTab === "access" && <AccessLogs />}
-        {activeTab === "analytics" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Analytics Coming Soon</h3>
-              <p className="text-muted-foreground">
-                Advanced analytics and reporting features will be available here.
-              </p>
-            </Card>
-          </div>
-        )}
+        {activeTab === "members" && <AllMembersView />}
+        {activeTab === "access" && <AllAccessLogsView />}
+        {activeTab === "analytics" && <AnalyticsCharts />}
       </div>
 
       {/* Add Member Dialog */}
